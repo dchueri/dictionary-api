@@ -1,14 +1,14 @@
 const db = require("../models");
 const Repository = require("../repositories/Repository");
-const Words = require("../utils/WordsImport");
+const UserRepository = require("../repositories/UserRepository");
 
-const UserRepository = new Repository(db.Users);
+const userRepository = new UserRepository(db.Users);
 
 class UserController {
   static async getUser(req, res) {
     try {
       const { id } = req.params;
-      const me = await UserRepository.findOne(id);
+      const me = await UserRepository.findOneById(id);
       return res.status(200).json(me);
     } catch (e) {
       return res.status(400).json(e.message);
@@ -25,7 +25,16 @@ class UserController {
     }
   }
 
-
+  static async addFavoriteWord(req,res) {
+    try {
+      const {word} = req.params;
+      const {userId} = req.body;
+      await UserRepository.addFavoriteWord(word,userId);
+      return res.status(204).json();
+    } catch (e) {
+      return res.status(400).json(e.message);
+    }
+  }
 }
 
 module.exports = UserController;

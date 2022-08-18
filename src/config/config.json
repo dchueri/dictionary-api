@@ -4,13 +4,7 @@
     "password": "root",
     "database": "dictionary_api",
     "host": "127.0.0.1",
-    "dialect": "mysql",
-    "pool": {
-      "max": 15,
-      "min": 0,
-      "acquire": 15000000,
-      "idle": 10000
-    }
+    "dialect": "mysql"
   },
   "test": {
     "username": "root",

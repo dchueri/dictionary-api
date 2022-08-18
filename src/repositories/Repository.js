@@ -7,9 +7,11 @@ class Repository {
         return this.model.create(entity);
     }
 
-    async findOne(id) {
+    async findOneById(id) {
         return this.model.findOne({ where: { id: id } })
     }
+
+
 }
 
 module.exports = Repository
