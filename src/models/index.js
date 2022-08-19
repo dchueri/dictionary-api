@@ -34,4 +34,6 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+sequelize.query('SET FOREIGN_KEY_CHECKS = 0', null, { raw: true })
+
 module.exports = db;

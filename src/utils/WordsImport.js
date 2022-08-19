@@ -1,8 +1,7 @@
 require("es6-promise").polyfill();
 const axios = require("axios");
-const db = require("../models");
+const { md5 } = require("../utils/md5");
 const WordsListRepository = require("../repositories/WordsListRepository");
-const WordsListServices = require("../services/WordsListServices");
 
 async function getWordsArray() {
   const res = await axios.get(
@@ -16,15 +15,15 @@ class WordsImport {
   static async insertWordsIntoDB() {
     try {
       let wordsArray = await getWordsArray();
-      let atualHash = await WordsListRepository.getAtualHash();
-      if(WordsListServices.verifyIfHasNewList(wordsArray, atualHash)) {
+      const hashOfNewArray = md5(wordsArray.join());
+      const atualHash = await WordsListRepository.getAtualHash();
+      if (atualHash === hashOfNewArray) {
         console.log("All up to date");
       } else {
-        console.log(WordsListServices.verifyIfHasNewList(wordsArray, atualHash))
-        /* await WordsListRepository.clearTable();
+        await WordsListRepository.clearTable();
         console.log("Starting the addition of words in DB");
-        wordsArray = wordsArray.filter((word) => word !== "");
-        WordsListRepository.createWordsList(wordsArray); */
+        await WordsListRepository.createWordsList(wordsArray);
+        await WordsListRepository.createHash(hashOfNewArray);
       }
     } catch (e) {
       console.log(e.message);

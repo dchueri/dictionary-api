@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class ListHashes extends Model {
+  class List_Hashes extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,11 +13,11 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  ListHashes.init({
+  List_Hashes.init({
     hash: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'list_hashes',
   });
-  return ListHashes;
+  return List_Hashes;
 };
