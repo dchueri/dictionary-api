@@ -5,7 +5,7 @@ import { Users } from 'src/user/models/Users.model';
 import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
-import { WordsModule } from './word/words.module';
+import { WordModule } from './word/word.module';
 
 @Module({
   imports: [
@@ -23,7 +23,7 @@ import { WordsModule } from './word/words.module';
     SequelizeModule.forFeature([Users]),
     UserModule,
     AuthModule,
-    WordsModule,
+    WordModule,
   ],
   controllers: [AppController],
 })
