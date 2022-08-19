@@ -4,6 +4,18 @@ const WordRepository = require("./WordRepository");
 const usersDB = db.Users;
 
 class UserRepository {
+  static async findUserById(id, attributesOfReturn) {
+    return usersDB.findOne({
+      where: { id: id },
+      attributes: attributesOfReturn,
+    });
+  }
+
+  static async createUser(user) {
+    const userCreated = await usersDB.create(user);
+    return userCreated;
+  }
+
   static async addFavoriteWord(wordToAdd, userId) {
     const user = await this.findUserById(userId);
     const wordId = await WordRepository.findIdByWord(wordToAdd);
@@ -31,13 +43,6 @@ class UserRepository {
       raw: true,
     });
     return allFavoritesWords.favorites;
-  }
-
-  static async findUserById(id, attributesOfReturn) {
-    return usersDB.findOne({
-      where: { id: id },
-      attributes: attributesOfReturn,
-    });
   }
 }
 

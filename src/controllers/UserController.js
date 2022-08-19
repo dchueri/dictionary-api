@@ -5,7 +5,7 @@ class UserController {
     const { userId } = req.body;
     const attributesForReturnOfSearch = ["id", "name", "email"];
     try {
-      const me = await UserRepository.findOneById(
+      const me = await UserRepository.findUserById(
         userId,
         attributesForReturnOfSearch
       );
@@ -18,7 +18,7 @@ class UserController {
   static async createUser(req, res) {
     try {
       const newUser = req.body;
-      const newUserCreated = await UserRepository.create(newUser);
+      const newUserCreated = await UserRepository.createUser(newUser);
       return res.status(200).json(newUserCreated);
     } catch (e) {
       return res.status(400).json(e.message);
