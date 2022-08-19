@@ -16,7 +16,7 @@ module.exports = {
         onDelete: 'CASCADE',
         allowNull: false,
       },
-      wordsId: {
+      wordId: {
         type: Sequelize.INTEGER,
         references: { model: 'Words', key: 'id' },
         onUpdate: 'CASCADE',

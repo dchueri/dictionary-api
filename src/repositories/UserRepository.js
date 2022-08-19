@@ -1,42 +1,39 @@
-const Repository = require("./Repository");
 const db = require("../models");
+const WordRepository = require("./WordRepository");
 
-class UserRepository extends Repository {
+const usersDB = db.Users;
+
+class UserRepository {
+  static async findUserById(id, attributesOfReturn) {
+    return usersDB.findOne({
+      where: { id: id },
+      attributes: attributesOfReturn,
+    });
+  }
+
+  static async createUser(user) {
+    const userCreated = await usersDB.create(user);
+    return userCreated;
+  }
+
   static async addFavoriteWord(wordToAdd, userId) {
-    const allFavoritesWords = await this.findFavoritesOfUser(userId);
-    let newFavoriteList;
-    if(allFavoritesWords == null) {
-        newFavoriteList = wordToAdd + "\n";
-    } else {
-        newFavoriteList = allFavoritesWords + wordToAdd + "\n";
-    }
-    await db.Users.update(
-      { favorites: newFavoriteList },
-      { where: { id: userId } }
-    );
+    const user = await this.findUserById(userId);
+    const wordId = await WordRepository.findIdByWord(wordToAdd);
+    user.addWord(wordId);
   }
 
   static async removeFavoriteWord(wordToRemove, userId) {
-    const allFavoritesWords = await this.findFavoritesOfUser(userId);
-    const favoriteListArray = allFavoritesWords.split("\n");
-    const indexOfWordToRemove = favoriteListArray.indexOf(wordToRemove);
-    if(indexOfWordToRemove === -1) {
-      throw new Error("The selected word is not in this user favorites")
-    }
-    favoriteListArray.splice(indexOfWordToRemove, 1);
-    const newFavoriteList = favoriteListArray.join("\n")
-    await db.Users.update(
-      { favorites: newFavoriteList },
-      { where: { id: userId } }
-    );
+    const user = await this.findUserById(userId);
+    const wordId = await WordRepository.findIdByWord(wordToRemove);
+    user.removeWord(wordId);
   }
 
   static async findFavoritesOfUser(userId) {
-    const allFavoritesWords = await db.Users.findOne({
+    const allFavoritesWords = await usersDB.findOne({
       attributes: ["favorites"],
       includes: [
         {
-          model: db.Users,
+          model: usersDB,
           attributes: ["favorites"],
         },
       ],
