@@ -1,17 +1,24 @@
-const Repository = require("./Repository");
 const db = require("../models");
-const bcrypt = require("bcrypt");
 const md5 = require("md5");
 const { sequelize } = require("../models");
 
-class WordsListRepository extends Repository {
+const wordsDB = db.Words;
+
+class WordRepository {
   static async createWordsList(wordsList) {
-    const listAdded = await db.Words.bulkCreate(
+    const listAdded = await wordsDB.bulkCreate(
       wordsList.map((word) => ({
         word: word,
       }))
     );
     return console.log(`Words list created with ${listAdded.length} words.`);
+  }
+
+  static async findIdByWord(word) {
+    const foundWord = await wordsDB.findOne({
+      where: { word: word },
+    });
+    return foundWord.dataValues.id;
   }
 
   static async createHash(hash) {
@@ -31,11 +38,11 @@ class WordsListRepository extends Repository {
   }
 
   static async clearTable() {
-    db.Words.destroy({
+    wordsDB.destroy({
       where: {},
       truncate: true,
     });
   }
 }
 
-module.exports = WordsListRepository;
+module.exports = WordRepository;
