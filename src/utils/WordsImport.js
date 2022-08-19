@@ -1,10 +1,7 @@
 require("es6-promise").polyfill();
 const axios = require("axios");
-const db = require("../models");
-const bcrypt = require("bcrypt");
-const md5 = require('md5');
+const { md5 } = require("../utils/md5");
 const WordsListRepository = require("../repositories/WordsListRepository");
-const WordsListServices = require("../services/WordsListServices");
 
 async function getWordsArray() {
   const res = await axios.get(
@@ -17,33 +14,16 @@ async function getWordsArray() {
 class WordsImport {
   static async insertWordsIntoDB() {
     try {
-      //let wordsArray = await getWordsArray();
-      let wordsArray = ["teste", "casa", "moto"];
-      const hash = md5(wordsArray.join());
-
-      //let wordsArray = ["teste", "casa", "moto"];
-      let atualHash = await WordsListRepository.getAtualHash();
-      const isNewList = await WordsListServices.verifyIfHasNewList(
-        wordsArray.join(),
-        atualHash
-      );
-      const newHash = await WordsListRepository.createHash(wordsArray)
-      console.log(atualHash);
-      console.log(newHash.hash)
-      console.log('result', atualHash == newHash);
-      if (!isNewList) {
+      let wordsArray = await getWordsArray();
+      const hashOfNewArray = md5(wordsArray.join());
+      const atualHash = await WordsListRepository.getAtualHash();
+      if (atualHash === hashOfNewArray) {
         console.log("All up to date");
       } else {
-        console.log(
-          await WordsListServices.verifyIfHasNewList(
-            wordsArray.join("\n"),
-            atualHash
-          )
-        );
         await WordsListRepository.clearTable();
         console.log("Starting the addition of words in DB");
-        //wordsArray = wordsArray.pop();
-        WordsListRepository.createWordsList(wordsArray);
+        await WordsListRepository.createWordsList(wordsArray);
+        await WordsListRepository.createHash(hashOfNewArray);
       }
     } catch (e) {
       console.log(e.message);

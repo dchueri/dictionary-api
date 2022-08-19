@@ -5,7 +5,7 @@ class WordsListServices {
     if (!hash) {
       return true;
     }
-    const isHashEqual = md5(wordsList) === hash;
+    const isHashEqual = await bcrypt.compare(wordsList, hash);
     return !isHashEqual;
   }
 }
