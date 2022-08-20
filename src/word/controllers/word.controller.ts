@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { WordService } from '../services/word.service';
 
 @Controller('entries/en')
@@ -20,5 +20,11 @@ export class WordController {
   ) {
     const wordId = await this.wordService.getIdByWord(word);
     await this.wordService.removeWordToFavorites(wordId, userId);
+  }
+
+  @Get(':word')
+  async findWord(@Param('word') word: string, @Body('userId') userId: number) {
+    const wordId = await this.wordService.getIdByWord(word);
+    await this.wordService.addWordToHistoric(wordId, userId);
   }
 }

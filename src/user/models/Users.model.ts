@@ -6,6 +6,7 @@ import {
   Table
 } from 'sequelize-typescript';
 import { Words } from 'src/word/models/Words.model';
+import { Historic } from './historic.model';
 import { Users_Words } from './Users_Words.model';
 
 @Table
@@ -26,5 +27,7 @@ export class Users extends Model {
   })
   password: string;
   @BelongsToMany(() => Words, () => Users_Words)
-  favoritesWords: Words[];
+  favoritesWords: Words;
+  @BelongsToMany(() => Words, () => Historic)
+  searchHistory: Words;
 }

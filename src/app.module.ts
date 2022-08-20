@@ -1,14 +1,21 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { SeederModule } from 'nestjs-sequelize-seeder';
 import { Users } from 'src/user/models/Users.model';
 import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
-import { WordsModule } from './word/words.module';
+import { Words } from './word/models/Words.model';
+import { WordService } from './word/services/word.service';
+import { WordModule } from './word/word.module';
 
 @Module({
   imports: [
+    SeederModule.forRoot({
+      runOnlyIfTableIsEmpty: true,
+    }),
     ConfigModule.forRoot(),
     SequelizeModule.forRoot({
       dialect: 'mysql',
@@ -20,11 +27,12 @@ import { WordsModule } from './word/words.module';
       autoLoadModels: true,
       synchronize: true,
     }),
-    SequelizeModule.forFeature([Users]),
+    SequelizeModule.forFeature([Users, Words]),
     UserModule,
     AuthModule,
-    WordsModule,
+    WordModule,
   ],
+  providers: [AppService, WordService],
   controllers: [AppController],
 })
 export class AppModule {}
