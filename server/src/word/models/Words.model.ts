@@ -5,9 +5,9 @@ import {
   Model,
   Table
 } from 'sequelize-typescript';
-import { Historic } from 'src/user/models/historic.model';
 import { Users } from 'src/user/models/Users.model';
 import { Users_Words } from 'src/user/models/Users_Words.model';
+import { Historic } from '../../user/models/Historic.model';
 
 @Table
 export class Words extends Model {
