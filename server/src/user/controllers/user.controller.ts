@@ -9,4 +9,9 @@ export class UserController {
   async getUser(@Body('userId') userId: number): Promise<Users> {
     return await this.userService.getUserById(userId);
   }
+
+  @Get('all')
+  async getAllUsers(): Promise<Users[]> {
+    return await this.userService.getAllUsers();
+  }
 }
