@@ -23,10 +23,9 @@ export class PageDto<T> {
     totalDocs: number,
   ) {
     this.results = results;
-    this.page = paginationOptions.page;
-    this.limit = paginationOptions.limit;
     this.totalDocs = totalDocs;
-    this.totalPages = Math.ceil(this.totalDocs / this.limit);
+    this.page = paginationOptions.page;
+    this.totalPages = Math.ceil(this.totalDocs / paginationOptions.limit);
     this.hasNext = this.page > 1;
     this.hasPrev = this.page < this.totalPages;
   }
