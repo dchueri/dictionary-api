@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+
+  dictionary-api:
+    build:
+      context: server
+      dockerfile: Dockerfile
+    hostname: dictionary-api
+    container_name: dictionary-api
+    volumes:
+      - ./server:/app
+    ports:
+      - 3000:3000
