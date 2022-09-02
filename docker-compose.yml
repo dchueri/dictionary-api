@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+
+  dictionary-database:
+    container_name: dictionary-database
+    image: mysql:latest
+    networks:
+      - dictionary-bridge
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - ./.docker/dbdata:/var/lib/mysql/
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+
+  dictionary-api:
+    networks:
+      - dictionary-bridge
+    build:
+      context: server
+      dockerfile: Dockerfile
+    hostname: dictionary-api
+    container_name: dictionary-api
+    volumes:
+      - ./server:/app
+    ports:
+      - 3000:3000
+    depends_on:
+      - dictionary-database
+
+networks:
+  dictionary-bridge:
+    driver: bridge
