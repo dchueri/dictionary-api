@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   BelongsToMany,
   Column,
@@ -11,17 +12,20 @@ import { Users_Words } from './Users_Words.model';
 
 @Table
 export class Users extends Model {
+  @ApiProperty()
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
   name: string;
+  @ApiProperty()
   @Column({
     type: DataType.STRING,
     allowNull: false,
     unique: true,
   })
   email: string;
+  @ApiProperty()
   @Column({
     type: DataType.STRING,
     allowNull: false,

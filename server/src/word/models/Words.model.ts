@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   BelongsToMany,
   Column,
@@ -11,11 +12,13 @@ import { Historic } from '../../user/models/Historic.model';
 
 @Table
 export class Words extends Model {
+  @ApiProperty()
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
   word: string;
+  @ApiProperty()
   @BelongsToMany(() => Users, () => Users_Words)
   users: Users;
   @BelongsToMany(() => Users, () => Historic)
