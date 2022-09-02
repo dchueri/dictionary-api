@@ -1,17 +1,15 @@
 import { Body, Controller, HttpStatus, Post, Response } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ICreateUser } from '../../types/User';
 import { Users } from '../../user/models/Users.model';
-import { UserService } from '../../user/services/user.service';
 import { IsPublic } from '../decorators/IsPublic.decorator';
 import { UserToken } from '../models/UserToken.model';
 import { AuthService } from '../services/auth.service';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private authService: AuthService,
-    private readonly userService: UserService,
-  ) {}
+  constructor(private authService: AuthService) {}
   @Post('signup')
   async createUser(
     @Body() user: ICreateUser,
@@ -22,7 +20,7 @@ export class AuthController {
       const newUser = await this.authService.createUser(user);
       newUser.password = pass;
       const loggedUser = await this.authService.login(newUser);
-      return res.status(HttpStatus.CREATED).json(loggedUser);
+      return res.status(HttpStatus.OK).json(loggedUser);
     } catch (e) {
       return res.status(HttpStatus.BAD_REQUEST).json({ message: e.message });
     }

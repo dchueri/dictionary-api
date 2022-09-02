@@ -67,7 +67,7 @@ export class WordService {
     });
     const array = [];
     words.rows.map((word) => array.push(word.word));
-    return new PageDto(array, paginationOptions, words.count);
+    return new PageDto(array, paginationOptions, array.length);
   }
 
   async clearTable() {
