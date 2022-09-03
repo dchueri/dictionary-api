@@ -4,12 +4,11 @@ services:
 
   dictionary-api:
     build:
-      context: server
       dockerfile: Dockerfile
     hostname: dictionary-api
     container_name: dictionary-api
     volumes:
-      - ./server:/app
+      - ./:/app
     ports:
       - 3000:3000
     depends_on:
