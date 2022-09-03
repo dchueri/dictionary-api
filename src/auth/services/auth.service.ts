@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/sequelize';
 import * as bcrypt from 'bcrypt';
-import UserAlreadyExistsException from 'src/user/errors/user-already-exists.error';
+import UserAlreadyExistsException from '../../user/errors/user-already-exists.error';
 import { Users } from '../../user/models/Users.model';
 import { UserService } from '../../user/services/user.service';
 import { UserPayload } from '../models/UserPayload.model';
