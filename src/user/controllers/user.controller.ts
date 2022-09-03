@@ -8,8 +8,8 @@ import {
   Response
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Users } from 'src/user/models/Users.model';
-import { PaginationOptionsDto } from 'src/word/dto/pagination-options.dto';
+import { Users } from '../../user/models/Users.model';
+import { PaginationOptionsDto } from '../../word/dto/pagination-options.dto';
 import { UserService } from '../services/user.service';
 
 @ApiTags('user')

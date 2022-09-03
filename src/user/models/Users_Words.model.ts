@@ -1,5 +1,5 @@
 import { Column, ForeignKey, Model, Table } from 'sequelize-typescript';
-import { Words } from 'src/word/models/Words.model';
+import { Words } from '../../word/models/Words.model';
 import { Users } from './Users.model';
 
 @Table

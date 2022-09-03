@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import axios from 'axios';
 import { Op } from 'sequelize';
-import { Users } from 'src/user/models/Users.model';
+import { Users } from '../../user/models/Users.model';
 import { PaginationOptionsDto } from '../dto/pagination-options.dto';
 import { PageDto } from '../dto/pagination.dto';
 import { Words } from '../models/Words.model';
