@@ -5,15 +5,18 @@ import {
   HttpCode,
   HttpStatus,
   Query,
-  Response
+  Response,
+  UseGuards
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { Users } from '../../user/models/Users.model';
 import { PaginationOptionsDto } from '../../word/dto/pagination-options.dto';
 import { UserService } from '../services/user.service';
 
 @ApiTags('user')
 @Controller('user')
+@UseGuards(JwtAuthGuard)
 export class UserController {
   constructor(private userService: UserService) {}
   @Get('me')

@@ -7,14 +7,17 @@ import {
   Param,
   Post,
   Query,
-  Response
+  Response,
+  UseGuards
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { PaginationOptionsDto } from '../dto/pagination-options.dto';
 import { WordService } from '../services/word.service';
 
 @ApiTags('entries')
 @Controller('entries/en')
+@UseGuards(JwtAuthGuard)
 export class WordController {
   constructor(private wordService: WordService) {}
   @Post(':word/favorite')
