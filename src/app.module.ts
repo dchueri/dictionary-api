@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { SeederModule } from 'nestjs-sequelize-seeder';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { Users } from './user/models/Users.model';
 import { UserModule } from './user/user.module';
 import { Words } from './word/models/Words.model';
@@ -38,7 +40,14 @@ import { WordModule } from './word/word.module';
     AuthModule,
     WordModule,
   ],
-  providers: [AppService, WordService],
+  providers: [
+    AppService,
+    WordService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
   controllers: [AppController],
 })
 export class AppModule {}
